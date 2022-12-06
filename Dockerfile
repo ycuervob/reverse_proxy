@@ -11,8 +11,9 @@
   RUN openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
   RUN mkdir log
   COPY app.conf /tmp/app.nginx
+  COPY docker-entrypoint.sh /
   RUN envsubst '$NODE_ROOT' < /tmp/app.nginx > /etc/nginx/conf.d/default.conf
-
   EXPOSE 443
 
-  CMD [ "nginx", "-g", "daemon off;" ]
+  ENTRYPOINT ["/docker-entrypoint.sh"]
+  CMD ["nginx", "-g", "daemon off;" ]
